@@ -4,8 +4,8 @@ from graph_generators import *
 
 
 n = 200
-p = 0.7
-seed = 190
+p = 0.5
+seed = 0
 print("\n===== Number of nodes : =====", n)
 
 graphs = {'Directed Tree': DirectedTree.generate(n),

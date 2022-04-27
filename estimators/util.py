@@ -110,3 +110,21 @@ def get_rf_metric_cutoff(G_origin, weight="weight", cutoff_step=0.025, drop_thre
         mod_last = mod_now
 
     return good_cuts
+
+def scale2curvature(space_name, scale, dim):
+    if space_name == 'euc':
+        return 0
+    elif space_name == 'sph':
+        return 1./scale**2#dim
+    elif space_name == 'hyp':
+        return -1./scale**2#dim
+
+
+def get_space_params(dim):
+    return {
+        'euc': {'edim': dim, 'euc': 1, 'sdim': 0, 'sph': 0, 'dim': 0, 'hyp': 0},
+        'sph': {'sdim': dim, 'sph': 1, 'edim': 0, 'euc': 0, 'dim': 0, 'hyp': 0},
+        'hyp': {'dim': dim, 'hyp': 1, 'sdim': 0, 'sph': 0, 'edim': 0, 'euc': 0}
+    }
+
+
