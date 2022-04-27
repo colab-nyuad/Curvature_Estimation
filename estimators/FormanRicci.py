@@ -87,16 +87,16 @@ class FormanRicci:
             #TODO::::Remove self loop edges
             
             for (v1, v2) in self.G.edges():
-                v1_in = set(self.G.in_edges(v1))
-                
-                v2_out = set(self.G.out_edges(v2))
+                v1_in = list(set(self.G.in_edges(v1)))
+                v2_out = list(set(self.G.out_edges(v2)))
 
                 w_e = self.G[v1][v2][self.weight]
                 w_v1 = self.G.nodes[v1][self.weight]
                 w_v2 = self.G.nodes[v2][self.weight]
                 
-                ev1_sum = sum([w_v1 / math.sqrt(w_e * self.G[v1_in[0]][v1][self.weight]) for v in v1_in])
-                ev2_sum = sum([w_v2 / math.sqrt(w_e * self.G[v2][v2_out[1]][self.weight]) for v in v2_out])
+                
+                ev1_sum = sum([w_v1 / math.sqrt(w_e * self.G[v[0]][v1][self.weight]) for v in v1_in]) if len(v1_in) > 0 else 0
+                ev2_sum = sum([w_v2 / math.sqrt(w_e * self.G[v2][v[1]][self.weight]) for v in v2_out]) if len(v2_out) > 0 else 0
 
                 self.G[v1][v2]["formanCurvature"] = w_e * (w_v1 / w_e -ev1_sum)+ w_e * (w_v2 / w_e -ev2_sum)
 
@@ -118,6 +118,7 @@ class FormanRicci:
                     w_e = self.G[v1][v2][self.weight]
                     w_v1 = self.G.nodes[v1][self.weight]
                     w_v2 = self.G.nodes[v2][self.weight]
+
                     ev1_sum = sum([w_v1 / math.sqrt(w_e * self.G[v1][v][self.weight]) for v in v1_nbr])
                     ev2_sum = sum([w_v2 / math.sqrt(w_e * self.G[v2][v][self.weight]) for v in v2_nbr])
 
@@ -170,5 +171,13 @@ class FormanRicci:
                 logger.debug("node %d, Forman Curvature = %f" % (n, self.G.nodes[n]['formanCurvature']))
             print("Forman curvature (%s) computation done." % self.method)
 
-    def compute_ricci_curvature_agg():
-        pass
+    def compute_ricci_curvature_agg(self):
+        curv = 0
+        n = len(self.G.edges())
+        self.compute_ricci_curvature()
+
+        for n1, n2 in self.G.edges():
+            curv += self.G[n1][n2]["formanCurvature"]
+
+        return curv/n
+

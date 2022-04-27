@@ -81,10 +81,10 @@ class SectionalEstimator:
             curv = self.compute_component_curvature(c, n_samples)
             curvs.append(curv)
 
-        return curvs, len(components)
+        return np.array(curvs), np.array(weights)
 
     def compute_sectional_curvature_agg(self):
-        curvs, n = self.compute_sectional_curvature()
-        return np.sum(curvs) / n
+        curvs, weights = self.compute_sectional_curvature()
+        return np.sum(curvs * weights)
 
 

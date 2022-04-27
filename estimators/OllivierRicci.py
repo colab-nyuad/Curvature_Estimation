@@ -627,7 +627,6 @@ class OllivierRicci:
             self.G.nodes[n]['ricciCurvature'] = rc_sum / self.G.degree(n)
             logger.debug("node %s, Ricci Curvature = %f" % (n, self.G.nodes[n]['ricciCurvature']))
 
-        return self.G
 
     def compute_ricci_curvature_agg(self):
         curv = 0
