@@ -1,6 +1,7 @@
 import networkx as nx
 import estimators
 from graph_generators import *
+from GraphRicciCurvature.FormanRicci import FormanRicci
 
 
 n = 200
@@ -21,6 +22,17 @@ for name, G in graphs.items():
     #frc = estimators.FormanRicci(G, method='augmented')
     #c = frc.compute_ricci_curvature_agg()
     #print("\n===== Value 1d: {} ======".format(c))
+
+    # Forman-Ricci for direct graph 
+    
+    Gd = nx.DiGraph()
+    Gd.add_edges_from([(0, 9),(0, 7),(0, 6),(0, 1), (1, 2), (1, 3), (1, 4),(1, 5)])
+    print("\n===== Compute the Forman-Ricci curvature of the given directed graph Gd =====")
+    frc_directed = FormanRicci(Gd)
+    frc_directed.compute_ricci_curvature()
+    for n1, n2 in frc_directed.G.edges():
+        print("Directed Graph: The Forman-Ricci curvature of edge(%d,%d) id %f" %
+              (n1, n2, frc_directed.G[n1][n2]["formanCurvature"]))
 
     print("\n===== Compute the Ollivier-Ricci curvature of the given graph G =====")
     orc = estimators.OllivierRicci(G, alpha=0.5, verbose="INFO")
