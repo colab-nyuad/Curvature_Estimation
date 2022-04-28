@@ -77,7 +77,7 @@ class SectionalEstimator:
                 continue
             elif nv < 20:
                 combs = comb(nv, 4)
-                n_samples = combs if combs < n_samples else n_samples
+                n_samples = combs if combs < n_samples or n_samples == 0 else n_samples
             curv = self.compute_component_curvature(c, n_samples)
             curvs.append(curv)
 
